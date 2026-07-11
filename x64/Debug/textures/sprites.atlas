@@ -1,0 +1,6 @@
+atlas width=341 height=213
+region name="Computer" x=0 y=0 width=17 height=120
+region name="Player" x=17 y=0 width=17 height=120
+region name="ScoreBar" x=0 y=120 width=341 height=47
+region name="BallMotion" x=0 y=167 width=46 height=46
+region name="Ball" x=46 y=167 width=30 height=30
