@@ -1,4 +1,4 @@
-
+﻿
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <shellapi.h>   // CommandLineToArgvW
@@ -12,9 +12,6 @@
 #include <Font.h>
 #include <Camera2D.h>
 #include <InputManager.h>
-#include <PhysicsWorld.h>
-#include <SpatialGrid.h>
-#include <PhysicsSystem.h>
 #include <memory>
 #include <Colors.h>
 #include <SceneManager.h>
@@ -94,8 +91,11 @@ int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int)
 
 	std::shared_ptr<InputManager> input;
 	input = std::make_shared<InputManager>();
-	input->Initialize(); // real window (window.GetHandle()) exists now -- GameInput needs a focusable HWND
-	window.Show();
+	// Raw Input registers against the real window (it must exist by now) and arrives as WM_INPUT;
+	// the window procedure forwards those packets to the InputManager. Zero input threads.
+	input->Initialize(window.GetHandle());
+	Window::SetRawInputHandler(
+		[](void* user, LPARAM lp) { static_cast<InputManager*>(user)->OnRawInput(lp); }, input.get());	window.Show();
 	Vertex quadVertices[] = {
 		{ -0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 1.0f, 1.0f,  0.0f, 0.0f }, // Top-Left
 		{  0.5f,  0.5f, 0.0f,  1.0f, 1.0f, 1.0f, 1.0f,  1.0f, 0.0f }, // Top-Right
@@ -242,6 +242,7 @@ int CALLBACK wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int)
 	// function's closing brace, which is AFTER CoUninitialize() below -- releasing GameInput's
 	// COM/WinRT object post-CoUninitialize is undefined behavior and fails fast. Must shut it
 	// down explicitly first.
+	Window::SetRawInputHandler(nullptr, nullptr);   // detach before the InputManager dies
 	input->Shutdown();
 	CoUninitialize();
 	return 0;

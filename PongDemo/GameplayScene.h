@@ -133,8 +133,8 @@ private:
 	JLib::ResourceManager* resourceManager;
 	double lastUpdateTime = 0.0;
 	bool isGameOver = false;
-	SoundManager sound;
-	SoundHandle music;
+	JLib::SoundManager sound;
+	JLib::SoundHandle music;
 	std::vector<CMD> cmdQ;
 	JLib::Renderer2D& renderer;
 	std::shared_ptr<JLib::InputManager> input;
