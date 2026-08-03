@@ -64,6 +64,11 @@ GameplayScene::GameplayScene(ResourceManager& resourceManager, JLib::AssetHandle
 
 void GameplayScene::HandleInput(float dt)
 {
+	// Escape quits. This demo pushes GameplayScene as its ONLY scene, so there is nothing to pop
+	// back to -- popping would just empty the stack and leave the app running with nothing drawn.
+	// Update() is the only place with access to isRunning, hence the queued command.
+	if (input->IsKeyPressed(VK_ESCAPE)) cmdQ.push_back(CMD::QUIT);
+
 	// speed is px/sec now (matches Ball::vel's and CpuPaddle::Update's units) -- multiply by dt
 	// so a held key moves the paddle at a constant real-world rate regardless of frame rate,
 	// instead of "speed pixels every frame" (frame-rate DEPENDENT -- twice the FPS meant twice
@@ -146,6 +151,12 @@ void GameplayScene::DrawAIPaddle(const Paddle& paddle)
 
 void GameplayScene::Update(bool& isRunning, float dt)
 {
+	for (CMD c : cmdQ) {
+		if (c == CMD::QUIT) isRunning = false;
+	}
+	cmdQ.clear();
+	if (!isRunning) return;
+
 	ball.Update(dt);
 	ai.Update(ball, dt, renderer.GetScreenSize());
 
