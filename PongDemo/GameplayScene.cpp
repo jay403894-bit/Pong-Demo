@@ -161,10 +161,10 @@ void GameplayScene::Update(bool& isRunning, float dt)
 	ai.Update(ball, dt, renderer.GetScreenSize());
 
 	// Both Ball::pos/size and Paddle::pos/size are already CENTER + full-size, exactly
-	// Physics2D::Rect's own convention (see Rect.h) -- no min-corner conversion needed anywhere.
-	Physics2D::Rect ballRect({ ball.pos.x, ball.pos.y }, { ball.size.x, ball.size.y });
-	Physics2D::Rect playerRect({ player.pos.x, player.pos.y }, { player.size.x, player.size.y });
-	Physics2D::Rect aiRect({ ai.pos.x, ai.pos.y }, { ai.size.x, ai.size.y });
+	// JLib::Rect's own convention (see Rect.h) -- no min-corner conversion needed anywhere.
+	JLib::Rect ballRect({ ball.pos.x, ball.pos.y }, { ball.size.x, ball.size.y });
+	JLib::Rect playerRect({ player.pos.x, player.pos.y }, { player.size.x, player.size.y });
+	JLib::Rect aiRect({ ai.pos.x, ai.pos.y }, { ai.size.x, ai.size.y });
 
 	// Same overshoot/double-flip risk Ball::Update's wall bounce had -- reversing vel.x alone
 	// can leave the ball still overlapping the paddle next frame (fast ball, or a dt spike),
