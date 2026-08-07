@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="PongDemo/PongDemo.vcxproj" />
+  <Project Path="PongDemo/PongDemo.vcxproj" Id="d14b134b-6a2e-4cff-9003-91a25efddfcb" />
 </Solution>

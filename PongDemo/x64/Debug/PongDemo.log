@@ -1,0 +1,1 @@
+﻿C:\Pong Demo\PongDemo\PongDemo.vcxproj(70,5): error MSB4024: The imported project file "C:\JLib\UseJLib.props" could not be loaded. An XML comment cannot contain '--', and '-' cannot be the last character. Line 63, position 27.
